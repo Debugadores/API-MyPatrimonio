@@ -1,11 +1,25 @@
 <?php
-// config/database.php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
 class Database {
-    private $host = "localhost";
-    private $database = "seu_banco";
-    private $username = "seu_usuario";
-    private $password = "sua_senha";
+    private $host;
+    private $database;
+    private $username;
+    private $password;
     private $conn;
+
+    public function __construct() {
+        // Carregar variáveis de ambiente
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv->load();
+
+        $this->host = $_ENV['DB_HOST'];
+        $this->database = $_ENV['DB_DATABASE'];
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
+    }
 
     public function getConnection() {
         $this->conn = null;
